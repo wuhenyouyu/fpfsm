@@ -5,7 +5,7 @@
  * Compiler:            
  * Company:             
  * Date:                2016.12.03
- * Version:             1.00
+ * Version:             1.01
  * Writer:              
  * Overview:            fpfsm_core模块实现文件
  * Note:                None
@@ -25,7 +25,7 @@ typedef bool ptTask(void *pRam);
 typedef struct  core_task_t core_task_t;
 struct  core_task_t{
     ptTask      *pCallTask;
-    void*       pRam;
+    void        *pRam;
     core_task_t *ptNext;
 };
 
@@ -42,7 +42,7 @@ static  core_task_t  **s_ppTaskFIFOTail= NULL;
 
 
 /******************************************************************************
- * Function:        static void free_fpfsm_core_t(fpfsm_core_t *ptItem)
+ * Function:        void    init_fpfsm_core_t(void)
  *
  * PreCondition:    None
  *
@@ -56,27 +56,50 @@ static  core_task_t  **s_ppTaskFIFOTail= NULL;
  *
  * Note:            None
  *****************************************************************************/
+void    init_fpfsm_core_t(void)
+{
+    s_ptFreeList        =   NULL;
+    s_pTaskFIFOHeard    =   NULL;
+    s_ppTaskFIFOTail    =   NULL;
+}
+
+
+
+
+/******************************************************************************
+ * Function:        static void free_fpfsm_core_t(core_task_t *ptItem)
+ *
+ * PreCondition:    None
+ *
+ * Input:           core_task_t *ptItem
+ *
+ * Output:          None
+ *
+ * Side Effects:    None
+ *
+ * Overview:        
+ *
+ * Note:            None
+ *****************************************************************************/
 static void free_fpfsm_core_t(core_task_t *ptItem)
 {
     core_task_t*    ptThis      =   ptItem;
-    core_task_t*    ptTempList  =   s_ptFreeList;
     if(NULL ==  ptThis){
         return;
     }
-    
+    this.ptNext  =   s_ptFreeList;
     s_ptFreeList =   &this;
-    this.ptNext  =   ptTempList;
 }
 
 
 /******************************************************************************
- * Function:        static fpfsm_core_t *malloc_fpfsm_core_t(void)
+ * Function:        static core_task_t *malloc_fpfsm_core_t(void)
  *
  * PreCondition:    None
  *
  * Input:           None
  *
- * Output:          fpfsm_core_t*
+ * Output:          core_task_t*
  *
  * Side Effects:    None
  *
@@ -131,19 +154,19 @@ bool add_memory_block_to_fpfsm_core_t_heap(void *pBlock, uint32_t wBlockSize)
         ptNew = (core_task_t *)(pchTemp+wi);
         free_fpfsm_core_t(ptNew);
     }
-    return  true;
+    return true;
 }
 
 
 
 /******************************************************************************
- * Function:        bool add_memory_block_to_fpfsm_core_t_heap(void *pBlock, uint32_t wBlockSize)
+ * Function:        static void delete_task_fpfsm_core_t(void)
  *
  * PreCondition:    None
  *
- * Input:           void *pBlock, uint32_t wBlockSize
+ * Input:           None
  *
- * Output:          bool
+ * Output:          None
  *
  * Side Effects:    None
  *
@@ -185,9 +208,10 @@ static void delete_task_fpfsm_core_t(void)
 bool add_task_fpfsm_core_t(ptTask *pUserTask,void *pRam,is_jump_fifo_t tHeardOrTail)
 {
     core_task_t     *ptThis     = NULL;
-    core_task_t     *ptTemp     = NULL;
     core_task_t     **pptTemp   = NULL;
+    SYS_ENTER_CRITICAL();
     ptThis      =   malloc_fpfsm_core_t();
+    SYS_EXIT_CRITICAL();
     if(NULL == ptThis){
         return false;
     }
@@ -196,20 +220,19 @@ bool add_task_fpfsm_core_t(ptTask *pUserTask,void *pRam,is_jump_fifo_t tHeardOrT
     
     SYS_ENTER_CRITICAL();
     if(tHeardOrTail){
-        ptTemp      =   s_pTaskFIFOHeard;
+        this.ptNext         =   s_pTaskFIFOHeard;
         s_pTaskFIFOHeard    =   &this;
-        this.ptNext =   ptTemp;
         if(NULL == s_ppTaskFIFOTail){
             s_ppTaskFIFOTail = &(this.ptNext);
         }    
     }else{
         if(NULL == s_ppTaskFIFOTail){
-            s_pTaskFIFOHeard = &this;
+            s_pTaskFIFOHeard    = &this;
         }else{
-            *s_ppTaskFIFOTail = &this;
+            *s_ppTaskFIFOTail   = &this;
         }    
         s_ppTaskFIFOTail = &(this.ptNext);
-        this.ptNext = NULL;
+        this.ptNext      = NULL;
     }
     SYS_EXIT_CRITICAL();
     
@@ -249,7 +272,7 @@ bool scheduler_fpfsm_core_t(void)
     SYS_EXIT_CRITICAL();
         if(NULL != ptTask.pCallTask){
             if(ptTask.pCallTask(ptTask.pRam)){
-                add_task_fpfsm_core_t(ptTask.pCallTask,ptTask.pRam,0);
+                add_task_fpfsm_core_t(ptTask.pCallTask,ptTask.pRam,ADD_TASK_FIFO_TAIL);
             }    
         }    
     return true;

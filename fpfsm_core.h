@@ -55,10 +55,12 @@ bool scheduler_fpfsm_core_t(void);
 
 #define SYS_CALL_SUB_FSM()                      scheduler_fpfsm_core_t()
 
-#define SYS_INIT_FSM(__MEMORY,__SIZE)           do{\
+#define SYS_INIT_FSM()                          do{\
                                                     init_fpfsm_core_t();\
-                                                    add_memory_block_to_fpfsm_core_t_heap((__MEMORY),(__SIZE));\
                                                 }while(0)
+
+#define USER_NEW_MEMORY_FSM(__MEMORY,__SIZE)    add_memory_block_to_fpfsm_core_t_heap((__MEMORY),(__SIZE));
+
 
 #ifdef __cplusplus
 	}

@@ -1,26 +1,26 @@
 /*********************************************************
 FileName	:	main.c
 Date		:	2015.03.06
-Author		:	LY
+Author		:	
 Version		:	1.0.2
-Description	:	Ö÷ÎÄ¼ş
+Description	:	ä¸»æ–‡ä»¶
 ***********************************************************/
 
 
 #include	"../heard/pic18f4550_config.h"
 #include	"../heard/heard.h"
 #include    "../fpfsm_core/fpfsm_core.h"
-//ºê¶¨Òå
+//å®å®šä¹‰
 #define	DELAY_1MS	274//310
 
 
-//±äÁ¿ÉùÃ÷
+//å˜é‡å£°æ˜
 #define TASK_NUM    10
 static  uint8_t s_chTaskMemory[FSFSM_TASK_TCB_SIZE * TASK_NUM];
 
 
 
-//º¯ÊıÉùÃ÷
+//å‡½æ•°å£°æ˜
 void	IO_Init(void);
 
 

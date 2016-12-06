@@ -33,17 +33,17 @@ static  bool    task1_task(void*    pTemp);
 
 void	main(void)
 {
-	DisINT()
+    DisINT()
         IO_Init();
         SYS_INIT_FSM();
         USER_NEW_MEMORY_FSM(s_chTaskMemory,(FSFSM_TASK_TCB_SIZE * TASK_NUM));
-	EnINT()
+    EnINT()
 
     task1_start(NULL);
-	while(1)
-	{
+    while(1)
+    {
         SYS_CALL_SUB_FSM();
-	}
+    }
 }
 
 

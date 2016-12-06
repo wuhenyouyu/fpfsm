@@ -3,24 +3,24 @@ FileName	:	main.c
 Date		:	2015.03.06
 Author		:	
 Version		:	1.0.2
-Description	:	ä¸»æ–‡ä»¶
+Description	:	Ö÷ÎÄ¼ş
 ***********************************************************/
 
 
 #include	"../heard/pic18f4550_config.h"
 #include	"../heard/heard.h"
 #include    "../fpfsm_core/fpfsm_core.h"
-//å®å®šä¹‰
+//ºê¶¨Òå
 #define	DELAY_1MS	274//310
 
 
-//å˜é‡å£°æ˜
+//±äÁ¿ÉùÃ÷
 #define TASK_NUM    10
 static  uint8_t s_chTaskMemory[FSFSM_TASK_TCB_SIZE * TASK_NUM];
 
 
 
-//å‡½æ•°å£°æ˜
+//º¯ÊıÉùÃ÷
 void	IO_Init(void);
 
 

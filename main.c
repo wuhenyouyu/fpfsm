@@ -7,8 +7,8 @@ Description	:	主文件
 ***********************************************************/
 
 
-#include	"../heard/pic18f4550_config.h"
-#include	"../heard/heard.h"
+#include    "../heard/pic18f4550_config.h"
+#include    "../heard/heard.h"
 #include    "../fpfsm_core/fpfsm_core.h"
 //宏定义
 #define	DELAY_1MS	274//310
@@ -34,7 +34,7 @@ static  bool    task1_task(void*    pTemp);
 void	main(void)
 {
 	DisINT()
-		IO_Init();
+        IO_Init();
         SYS_INIT_FSM();
         USER_NEW_MEMORY_FSM(s_chTaskMemory,(FSFSM_TASK_TCB_SIZE * TASK_NUM));
 	EnINT()
@@ -50,13 +50,13 @@ void	main(void)
 
 void	IO_Init(void)
 {
-	UCON = 0;
+    UCON = 0;
     UIE = 0;                      // Mask all USB interrupts
     UCONbits.USBEN = 0;           // Disable module & attach to bus
-	ADCON1 |= 0x0F;               // Default all pins to digital
+    ADCON1 |= 0x0F;               // Default all pins to digital
 
-	LED_TRIS=ALLOUTPUT_PIN;
-	LED		=0xFF;
+    LED_TRIS=ALLOUTPUT_PIN;
+    LED		=0xFF;
 
     BU_TRIS = ALLOUTPUT_PIN;
     BU = 0;

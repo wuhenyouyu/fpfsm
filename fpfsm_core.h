@@ -7,7 +7,7 @@
  * Date:                2016.12.03
  * Version:             1.01
  * Writer:              
- * Overview:            fpfsm_coreÄ£¿éÊä³ö½Ó¿ÚÎÄ¼ş
+ * Overview:            fpfsm_coreæ¨¡å—è¾“å‡ºæ¥å£æ–‡ä»¶
  * Note:                None
 ******************************************************************************/
 #ifndef __FPFSM_CORE_H__
@@ -18,7 +18,7 @@ extern "C"
 	{
 #endif
 
-//ÉùÃ÷ÀàĞÍÇø
+//å£°æ˜ç±»å‹åŒº
 typedef enum{
     ADD_TASK_FIFO_TAIL  =   0,
     ADD_TASK_FIFO_HEARD
@@ -34,12 +34,12 @@ struct  core_task_t{
     core_task_t *ptNext;
 };
 
-#define FSFSM_TASK_TCB_SIZE     (sizeof(struct  core_task_t))   //Ö»ÓÃµ½SIZE£¬ÓÃ²»µ½ÀàĞÍ
+#define FPFSM_TASK_TCB_SIZE     (sizeof(struct  core_task_t))   //åªç”¨åˆ°SIZEï¼Œç”¨ä¸åˆ°ç±»å‹
 
 
 
 
-//ÓÃ»§½Ó¿Ú
+//ç”¨æˆ·æ¥å£
 
 void    init_fpfsm_core_t(void);
 

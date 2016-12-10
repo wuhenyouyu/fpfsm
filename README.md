@@ -27,4 +27,4 @@ int main(void)
 **"FPFSM" IS UNDER XXXXXXXXXXXXXXXXXXXXX**
  
 ## Author
- **智能家居-萌新**：南京人士，物联网大神指导完成。
+ **wuhenyouyu**：The Author of fpfsm。

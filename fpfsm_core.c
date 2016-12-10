@@ -15,7 +15,7 @@
 /****************************定义内部类型区***************************/
 typedef enum{
     ADD_TASK_FIFO_TAIL  =   0,
-    ADD_TASK_FIFO_HEARD
+    ADD_TASK_FIFO_HEAD
 }is_jump_fifo_t;    
 
 
@@ -37,7 +37,7 @@ struct  core_task_t{
 static  core_task_t  *s_ptFreeList     = NULL;
 
 //task FIFO
-static  core_task_t  *s_pTaskFIFOHeard = NULL;
+static  core_task_t  *s_pTaskFIFOHead  = NULL;
 static  core_task_t  **s_ppTaskFIFOTail= NULL;
 
 
@@ -59,7 +59,7 @@ static  core_task_t  **s_ppTaskFIFOTail= NULL;
 void    init_fpfsm_core_t(void)
 {
     s_ptFreeList        =   NULL;
-    s_pTaskFIFOHeard    =   NULL;
+    s_pTaskFIFOHead     =   NULL;
     s_ppTaskFIFOTail    =   NULL;
 }
 
@@ -176,12 +176,12 @@ bool add_memory_block_to_fpfsm_core_t_heap(void *pBlock, uint32_t wBlockSize)
  *****************************************************************************/
 static void delete_task_fpfsm_core_t(void)
 {
-    core_task_t*    ptThis      =   s_pTaskFIFOHeard;
+    core_task_t*    ptThis      =   s_pTaskFIFOHead;
     if(NULL == ptThis){
         return;
     }
-    s_pTaskFIFOHeard = this.ptNext;
-    if(NULL == s_pTaskFIFOHeard){
+    s_pTaskFIFOHead = this.ptNext;
+    if(NULL == s_pTaskFIFOHead){
         s_ppTaskFIFOTail = NULL;
     }    
     free_fpfsm_core_t(ptThis);
@@ -220,14 +220,14 @@ bool add_task_fpfsm_core_t(ptTask *pUserTask,void *pRam,is_jump_fifo_t tHeardOrT
     
     SYS_ENTER_CRITICAL();
     if(tHeardOrTail){
-        this.ptNext         =   s_pTaskFIFOHeard;
-        s_pTaskFIFOHeard    =   &this;
+        this.ptNext         =   s_pTaskFIFOHead;
+        s_pTaskFIFOHead    =   &this;
         if(NULL == s_ppTaskFIFOTail){
             s_ppTaskFIFOTail = &(this.ptNext);
         }    
     }else{
         if(NULL == s_ppTaskFIFOTail){
-            s_pTaskFIFOHeard    = &this;
+            s_pTaskFIFOHead    = &this;
         }else{
             *s_ppTaskFIFOTail   = &this;
         }    
@@ -263,11 +263,11 @@ bool scheduler_fpfsm_core_t(void)
     void        *pRam   = NULL;
     
     SYS_ENTER_CRITICAL();
-        if(NULL == s_pTaskFIFOHeard){
+        if(NULL == s_pTaskFIFOHead){
             SYS_EXIT_CRITICAL();
             return false;
         }
-        ptTask = *s_pTaskFIFOHeard;
+        ptTask = *s_pTaskFIFOHead;
         delete_task_fpfsm_core_t();
     SYS_EXIT_CRITICAL();
         if(NULL != ptTask.pCallTask){

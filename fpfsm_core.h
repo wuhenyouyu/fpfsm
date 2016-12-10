@@ -21,7 +21,7 @@ extern "C"
 //声明类型区
 typedef enum{
     ADD_TASK_FIFO_TAIL  =   0,
-    ADD_TASK_FIFO_HEARD
+    ADD_TASK_FIFO_HEAD
 }is_jump_fifo_t;
 
 

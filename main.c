@@ -1,32 +1,32 @@
 /*********************************************************
 FileName	:	main.c
-Date		:	2015.03.06
+Date		:	2015.12.06
 Author		:	
 Version		:	1.0.2
-Description	:	Ö÷ÎÄ¼ş
+Description	:	ä¸»æ–‡ä»¶
 ***********************************************************/
 
 
 #include    "../heard/pic18f4550_config.h"
 #include    "../heard/heard.h"
 #include    "../fpfsm_core/fpfsm_core.h"
-//ºê¶¨Òå
+//å®å®šä¹‰
 #define	DELAY_1MS	274//310
 
 
-//±äÁ¿ÉùÃ÷
+//å˜é‡å£°æ˜
 #define TASK_NUM    10
-static  uint8_t s_chTaskMemory[FSFSM_TASK_TCB_SIZE * TASK_NUM];
+static  uint8_t s_chTaskMemory[FPFSM_TASK_TCB_SIZE * TASK_NUM];
 
 
 
-//º¯ÊıÉùÃ÷
+//å‡½æ•°å£°æ˜
 void	IO_Init(void);
 
 
-static  bool    task_delay(void*    pTemp);
+static  bool    task_delay(void *pTemp);
 static  bool    task1_start(void *pTemp);
-static  bool    task1_task(void*    pTemp);
+static  bool    task1_task(void *pTemp);
 
 
 
@@ -34,9 +34,9 @@ static  bool    task1_task(void*    pTemp);
 void	main(void)
 {
     DisINT()
-        IO_Init();
-        SYS_INIT_FSM();
-        USER_NEW_MEMORY_FSM(s_chTaskMemory,(FSFSM_TASK_TCB_SIZE * TASK_NUM));
+    IO_Init();
+    SYS_INIT_FSM();
+    USER_NEW_MEMORY_FSM(s_chTaskMemory,(FPFSM_TASK_TCB_SIZE * TASK_NUM));
     EnINT()
 
     task1_start(NULL);
@@ -82,7 +82,7 @@ typedef struct{
 
 
 
-static  bool    task_delay(void*    pTemp)
+static  bool    task_delay(void *pTemp)
 {
     tLEDTaskStack   *ptTaskStack = (tLEDTaskStack*)pTemp;
     if(NULL == ptTaskStack){
@@ -126,7 +126,7 @@ static  bool    task1_start(void *pTemp)
 }
 
 
-static  bool    task1_task(void*    pTemp)
+static  bool    task1_task(void *pTemp)
 {
     tLEDTaskStack   *ptTask1Pram = (tLEDTaskStack*)pTemp;
     if(NULL == ptTask1Pram){

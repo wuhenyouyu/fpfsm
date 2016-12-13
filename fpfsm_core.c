@@ -7,12 +7,12 @@
  * Date:                2016.12.03
  * Version:             1.01
  * Writer:              
- * Overview:            fpfsm_coreÄ£¿éÊµÏÖÎÄ¼þ
+ * Overview:            fpfsm_coreæ¨¡å—å®žçŽ°æ–‡ä»¶
  * Note:                None
 ******************************************************************************/
 #include    "app_cfg.h"
 
-/****************************¶¨ÒåÄÚ²¿ÀàÐÍÇø***************************/
+/****************************å®šä¹‰å†…éƒ¨ç±»åž‹åŒº***************************/
 typedef enum{
     ADD_TASK_FIFO_TAIL  =   0,
     ADD_TASK_FIFO_HEAD
@@ -32,7 +32,7 @@ struct  core_task_t{
 #define CORE_LIST_ITEM_SIZE    (sizeof(core_task_t))
 #define this (*ptThis)
 
-/****************************¶¨ÒåÄÚ²¿±äÁ¿Çø***************************/
+/****************************å®šä¹‰å†…éƒ¨å˜é‡åŒº***************************/
 //task list
 static  core_task_t  *s_ptFreeList     = NULL;
 
@@ -146,7 +146,7 @@ bool add_memory_block_to_fpfsm_core_t_heap(void *pBlock, uint32_t wBlockSize)
     if(CORE_LIST_ITEM_SIZE > wBlockSize){
         return false;
     }
-    //Ìí¼ÓÐÂµÄ½Úµã
+    //æ·»åŠ æ–°çš„èŠ‚ç‚¹
     for(wi=0;wi<wBlockSize;wi+=CORE_LIST_ITEM_SIZE){
         if((wi+CORE_LIST_ITEM_SIZE) > wBlockSize){
             break;

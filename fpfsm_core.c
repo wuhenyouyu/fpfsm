@@ -44,7 +44,7 @@ static  core_task_t  **s_ppTaskFIFOTail= NULL;
 void    init_fpfsm_core_t(void)
 {
     s_ptFreeList        =   NULL;
-    s_pTaskFIFOHeard    =   NULL;
+    s_pTaskFIFOHead     =   NULL;
     s_ppTaskFIFOTail    =   NULL;
 }
 
@@ -207,15 +207,15 @@ bool add_task_fpfsm_core_t(ptTask *pUserTask,void *pRam,is_jump_fifo_t tHeadOrTa
     this.pRam       =   pRam;
     
     SYS_ENTER_CRITICAL();
-    if(tHeardOrTail){
-        this.ptNext         =   s_pTaskFIFOHeard;
-        s_pTaskFIFOHeard    =   &this;
+    if(tHeadOrTail){
+        this.ptNext         =   s_pTaskFIFOHead;
+        s_pTaskFIFOHead    =   &this;
         if(NULL == s_ppTaskFIFOTail){
             s_ppTaskFIFOTail = &(this.ptNext);
         }    
     }else{
         if(NULL == s_ppTaskFIFOTail){
-            s_pTaskFIFOHeard    = &this;
+            s_pTaskFIFOHead    = &this;
         }else{
             *s_ppTaskFIFOTail   = &this;
         }    
